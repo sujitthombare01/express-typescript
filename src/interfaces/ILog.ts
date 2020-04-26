@@ -1,4 +1,4 @@
-export interface Log {
+export interface ILog {
     info(...message: any): void;
     trace(...message: any): void;
     debug(...message: any): void;

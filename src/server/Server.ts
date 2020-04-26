@@ -1,17 +1,33 @@
 import express from 'express';
 import {Application} from 'express';
-import {Log,JsonLogger} from '../utils/AppLogger';
+import {ILog,JsonLogger} from '../utils/AppLogger';
+import { IexpressApp } from 'interfaces/IExpressApp';
+import { IControllerBase } from 'interfaces/IControllerBase';
 
 export class Server {
 
     app: Application;
     port: number;
-    log: Log;
+    log: ILog;
 
-    constructor(port: number = 3000){
+    constructor(appInit: IexpressApp){
         this.app = express();
-        this.port= port;
+        this.port= appInit.port;
+        this.middlewares(appInit.middleWares);
+        this.routes(appInit.controllers);
         this.log = JsonLogger;
+    }
+
+    private middlewares(middleWares: any[]) {
+        middleWares.forEach(middleWare => {
+            this.app.use(middleWare)
+        })
+    }
+
+    private routes(controllers: IControllerBase[]) {
+        controllers.forEach(controller => {
+            this.app.use(controller.path, controller.initRoutes())
+        })
     }
 
     start() :void {

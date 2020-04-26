@@ -1,9 +1,9 @@
 import Logger from 'node-json-logger';
-import {Log} from '../interfaces/Log';
+import {ILog} from '../interfaces/ILog';
 
 class AppLogger {
     
-    appLogger: Log;
+    appLogger: ILog;
 
     private static instance:AppLogger;
 
@@ -20,4 +20,4 @@ class AppLogger {
 const appLoggerInstance = AppLogger.getInstance();
 const JsonLogger =appLoggerInstance.appLogger
 
-export { JsonLogger , Log };
+export { JsonLogger , ILog };
